@@ -1,11 +1,38 @@
 const playerSelection = '';
 const computerSelection = computerPlay();
-// console.log(playRound(playerSelection, computerSelection))
+const btnRock = document.getElementById('rock');
+const btnPaper = document.getElementById('paper');
+const btnScissors = document.getElementById('scissors');
+const playerScoreNumber = document.getElementById('playerScoreNumber');
+const computerScoreNumber = document.getElementById('computerScoreNumber');
+const roundScore = document.getElementById('roundScore');
+
+
+
 let result;
 let playerScore = 0;
 let computerScore = 0;
 let playerScoreTotal = 0;
 let computerScoreTotal = 0;
+
+
+btnRock.addEventListener('click', () => {
+	playRound('rock', computerSelection);
+	playerScoreNumber.textContent = playerScoreTotal;
+	computerScoreNumber.textContent = computerScoreTotal;
+	// if (playerScoreTotal)
+	checkWinner(playerScoreTotal, computerScoreTotal);
+});
+
+btnPaper.addEventListener('click', () => {
+	playRound('paper', computerSelection);
+	
+});
+
+btnScissors.addEventListener('click', () => {
+	playRound('scissors', computerSelection);
+	
+});
 
 function game() {
 	// *                     5 round game using for loop
@@ -23,9 +50,8 @@ function game() {
 
 	return checkWinner(playerScoreTotal, computerScoreTotal);
 }
-game();
+// game();
 
-// TODO          need to use generic parameters to make function generally usable
 function checkWinner(player1Score, player2Score) {
 	if (player1Score > player2Score) {
 		console.log('\x1b[42m%s\x1b[0m', "You're the WINNER!");
@@ -36,14 +62,25 @@ function checkWinner(player1Score, player2Score) {
 	}
 }
 
+// *   					keeping this as backup!
+// function checkWinner(player1Score, player2Score) {
+// 	if (player1Score > player2Score) {
+// 		console.log('\x1b[42m%s\x1b[0m', "You're the WINNER!");
+// 	} else if (player1Score === player2Score) {
+// 		console.log('\x1b[33m%s\x1b[0m', "It's a DRAW!");
+// 	} else {
+// 		console.log('\x1b[31m%s\x1b[0m', 'You LOSE!');
+// 	}
+// }
+
 function playRound(playerSelection, computerSelection) {
 	playerScore = 0;
 	computerScore = 0;
 
 	computerSelection = computerPlay();
-	playerSelection = prompt(
-		'PLEASE TYPE:  rock, paper or scissors'
-	).toLowerCase();
+	// playerSelection = prompt(
+	// 	'PLEASE TYPE:  rock, paper or scissors'
+	// ).toLowerCase();
 	console.log(`Player: ${playerSelection}`);
 	console.log(`Computer: ${computerSelection}`);
 
@@ -52,40 +89,30 @@ function playRound(playerSelection, computerSelection) {
 	if (playerSelection === 'rock' && computerSelection === 'paper') {
 		computerScore++;
 		result = 'You Lose!';
-		console.log(
-			`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`
-		);
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore} -> ${result}`;
 	} else if (playerSelection === 'paper' && computerSelection === 'paper') {
 		playerScore++;
 		computerScore++;
 		result = "It's a draw!";
-		console.log(
-			`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`
-		);
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore} -> ${result}`;
 	} else if (
 		playerSelection === 'scissors' &&
 		computerSelection === 'paper'
 	) {
 		playerScore++;
 		result = 'You Win!';
-		console.log(
-			`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`
-		);
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore} -> ${result}`;
 	} else if (playerSelection === 'rock' && computerSelection === 'scissors') {
 		playerScore++;
 		result = 'You Win!';
-		console.log(
-			`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`
-		);
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore} -> ${result}`;
 	} else if (
 		playerSelection === 'paper' &&
 		computerSelection === 'scissors'
 	) {
 		computerScore++;
 		result = 'You Lose!';
-		console.log(
-			`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`
-		);
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore} -> ${result}`;
 	} else if (
 		playerSelection === 'scissors' &&
 		computerSelection === 'scissors'
@@ -93,32 +120,22 @@ function playRound(playerSelection, computerSelection) {
 		playerScore++;
 		computerScore++;
 		result = "It's a draw!";
-		console.log(
-			`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`
-		);
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore} -> ${result}`;
 	} else if (playerSelection === 'rock' && computerSelection === 'rock') {
 		playerScore++;
 		computerScore++;
 		result = "It's a draw!";
-		console.log(
-			`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`
-		);
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore} -> ${result}`;
 	} else if (playerSelection === 'paper' && computerSelection === 'rock') {
 		playerScore++;
 		result = 'You Win!';
-		console.log(
-			`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`
-		);
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore} -> ${result}`;
 	} else if (playerSelection === 'scissors' && computerSelection === 'rock') {
 		computerScore++;
 		result = 'You Lose!';
-		console.log(
-			`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`
-		);
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore} -> ${result}`;
 	} else {
-		console.log(
-			"Sorry! You can only choose between 'rock', 'paper' or 'scissors' !"
-		);
+		roundScore.textContent = "Sorry! You can only choose between 'rock', 'paper' or 'scissors' !";
 	}
 
 	playerScoreTotal += playerScore;
