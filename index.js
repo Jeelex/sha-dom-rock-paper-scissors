@@ -1,112 +1,125 @@
-const playerSelection = ''
-const computerSelection = computerPlay()
-// console.log(playRound(playerSelection, computerSelection))
-let result
-let playerScore = 0
-let computerScore = 0
-let playerScoreTotal = 0
-let computerScoreTotal = 0
+const playerSelection = '';
+const computerSelection = computerPlay();
+const btnRock = document.getElementById('rock');
+const btnPaper = document.getElementById('paper');
+const btnScissors = document.getElementById('scissors');
+const playerScoreNumber = document.getElementById('playerScoreNumber');
+const computerScoreNumber = document.getElementById('computerScoreNumber');
+const roundScore = document.getElementById('roundScore');
+const winner = document.getElementById('winner');
 
-function game() {
-  // *                     5 round game using for loop
-  for (let i = 0; i < 5; i++) {
-    playRound(playerSelection, computerSelection)
-  }
+let result;
+let playerScore = 0;
+let computerScore = 0;
+let playerScoreTotal = 0;
+let computerScoreTotal = 0;
 
-  // !                   colors in console currently working ONLY in Google Chrome
-  console.log(
-    '\x1b[35m%s\x1b[0m',
-    `Player Total: ${playerScoreTotal}, Computer Total: ${computerScoreTotal}`
-  )
+// ********					  Button Event Listeners
+btnRock.addEventListener('click', () => {
+	playRound('rock', computerSelection);
+	playerScoreNumber.textContent = playerScoreTotal;
+	computerScoreNumber.textContent = computerScoreTotal;
+	checkWinner(playerScoreTotal, computerScoreTotal);
+});
 
-  return checkWinner(playerScoreTotal, computerScoreTotal)
-}
-game()
+btnPaper.addEventListener('click', () => {
+	playRound('paper', computerSelection);
+	playerScoreNumber.textContent = playerScoreTotal;
+	computerScoreNumber.textContent = computerScoreTotal;
+	checkWinner(playerScoreTotal, computerScoreTotal);
+});
 
-// TODO          need to use generic parameters to make function generally usable
-function checkWinner(playerScoreTotal, computerScoreTotal) {
-  if (playerScoreTotal > computerScoreTotal) {
-    console.log('\x1b[42m%s\x1b[0m', "You're the WINNER!")
-  } else if (playerScoreTotal === computerScoreTotal) {
-    console.log('\x1b[33m%s\x1b[0m', "It's a DRAW!")
-  } else {
-    console.log('\x1b[31m%s\x1b[0m', 'You LOSE!')
-  } 
+btnScissors.addEventListener('click', () => {
+	playRound('scissors', computerSelection);
+	playerScoreNumber.textContent = playerScoreTotal;
+	computerScoreNumber.textContent = computerScoreTotal;
+	checkWinner(playerScoreTotal, computerScoreTotal);
+});
+
+// TODO		 This is better written than the previous version in the original RPS repo. Need to update it.
+function checkWinner(player1Score, player2Score) {
+	if (player1Score >= 5) {
+		winner.textContent = "You're the WINNER!";
+	} else if (player2Score >= 5) {
+		winner.textContent = 'Computer wins! You LOSE!';
+	}
 }
 
 function playRound(playerSelection, computerSelection) {
-  playerScore = 0
-  computerScore = 0
+	playerScore = 0;
+	computerScore = 0;
 
-  computerSelection = computerPlay()
-  playerSelection = prompt("PLEASE TYPE:  rock, paper or scissors").toLowerCase()
-  console.log(`Player: ${playerSelection}`)
-  console.log(`Computer: ${computerSelection}`)
+	computerSelection = computerPlay();
 
-  // TODO            might be better to turn the if statement below into a switch statement???
+	if (playerSelection === 'rock' && computerSelection === 'paper') {
+		computerScore++;
+		result = 'You Lose!';
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore}`;
+	} else if (playerSelection === 'paper' && computerSelection === 'paper') {
+		playerScore++;
+		computerScore++;
+		result = "It's a draw!";
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore}`;
+	} else if (
+		playerSelection === 'scissors' &&
+		computerSelection === 'paper'
+	) {
+		playerScore++;
+		result = 'You Win!';
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore}`;
+	} else if (playerSelection === 'rock' && computerSelection === 'scissors') {
+		playerScore++;
+		result = 'You Win!';
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore}`;
+	} else if (
+		playerSelection === 'paper' &&
+		computerSelection === 'scissors'
+	) {
+		computerScore++;
+		result = 'You Lose!';
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore}`;
+	} else if (
+		playerSelection === 'scissors' &&
+		computerSelection === 'scissors'
+	) {
+		playerScore++;
+		computerScore++;
+		result = "It's a draw!";
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore}`;
+	} else if (playerSelection === 'rock' && computerSelection === 'rock') {
+		playerScore++;
+		computerScore++;
+		result = "It's a draw!";
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore}`;
+	} else if (playerSelection === 'paper' && computerSelection === 'rock') {
+		playerScore++;
+		result = 'You Win!';
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore}`;
+	} else if (playerSelection === 'scissors' && computerSelection === 'rock') {
+		computerScore++;
+		result = 'You Lose!';
+		roundScore.textContent = `Player: ${playerScore}, Computer: ${computerScore}`;
+	}
 
-  if (playerSelection === 'rock' && computerSelection === 'paper') {
-    computerScore++
-    result = 'You Lose!'
-    console.log(`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`)
-  } else if (playerSelection === 'paper' && computerSelection === 'paper') {
-    playerScore++
-    computerScore++
-    result = "It's a draw!"
-    console.log(`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`)
-  } else if (playerSelection === 'scissors' && computerSelection === 'paper') {
-    playerScore++
-    result = 'You Win!'
-    console.log(`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`)
-  } else if (playerSelection === 'rock' && computerSelection === 'scissors') {
-    playerScore++
-    result = 'You Win!'
-    console.log(`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`)
-  } else if (playerSelection === 'paper' && computerSelection === 'scissors') {
-    computerScore++
-    result = 'You Lose!'
-    console.log(`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`)
-  } else if (playerSelection === 'scissors' && computerSelection === 'scissors') {
-    playerScore++
-    computerScore++
-    result = "It's a draw!"
-    console.log(`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`)
-  } else if (playerSelection === 'rock' && computerSelection === 'rock') {
-    playerScore++
-    computerScore++
-    result = "It's a draw!"
-    console.log(`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`)
-  } else if (playerSelection === 'paper' && computerSelection === 'rock') {
-    playerScore++
-    result = 'You Win!'
-    console.log(`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`)
-  } else if (playerSelection === 'scissors' && computerSelection === 'rock') {
-    computerScore++
-    result = 'You Lose!'
-    console.log(`Player: ${playerScore}, Computer: ${computerScore} -> ${result}`)
-  } else {
-    console.log("Sorry! You can only choose between 'rock', 'paper' or 'scissors' !")
-  }
-
-  playerScoreTotal += playerScore
-  computerScoreTotal += computerScore
+	playerScoreTotal += playerScore;
+	computerScoreTotal += computerScore;
 }
 
 function computerPlay() {
-  // creating random number from 1 to 3
-  randomNum = Math.floor(Math.random() * 3 + 1)
+	// creating random number from 1 to 3
+	randomNum = Math.floor(Math.random() * 3 + 1);
 
-  //   switch statement to determine what the above random number represents
-  let computerChoice
-  switch (randomNum) {
-    case 1:
-      return (computerChoice = 'rock')
-      break
-    case 2:
-      return (computerChoice = 'paper')
-      break
-    case 3:
-      return (computerChoice = 'scissors')
-      break
-  }
+	//   switch statement to determine what the above random number represents
+	let computerChoice;
+	switch (randomNum) {
+		case 1:
+			return (computerChoice = 'rock');
+			break;
+		case 2:
+			return (computerChoice = 'paper');
+			break;
+		case 3:
+			return (computerChoice = 'scissors');
+			break;
+	}
 }
